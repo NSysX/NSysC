@@ -1,47 +1,38 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- main #Quere decir que es el branch main de GitHub
+- main
 
 pool:
-  vmImage: 'vs2022-win2019' # windows server 2016
+  vmImage: 'vs2017-win2016'
 
-variables: # para no estar repitiendo tanta informacion
-  buildConfiguration: 'Release' # Compilar y publicar mi poryecto en modo Release
-  proyecto: 'NSysApiPedidos/src/Presentation/WebApi/WebApi.csproj'
+variables:
+  buildConfiguration: 'Release'
+  proyecto: 'WebAPIAutores/WebAPIAutores.csproj'
 
-# tenemos los pasos referancia a cada una de las acciones que tengo que seguir
-# para compilar exitosamente mi proyecto
 steps:
-
-# - task : UseDotNet@2 este es para instalar el net 6 si lo estubiese usando
-- script: dotnet build --configuration $(buildConfiguration) # segundo paso es la variable de arriba buildcofiguration
-  displayName: 'dotnet build $(buildConfiguration)' ## es el nombre del paso
-
-- task : CmdLine@2
-  displayName: 'Installing EF Core CLI' # INSTALA EL ef core Cli
-  inputs :
-       script : 'dotnet tool install --global dotnet-ef' # para poder ejecutar un comando en Ef 
-
+- task: UseDotNet@2
+  displayName: 'Instalando Preview ASP.NET Core 6'
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.100-preview.4.21255.9'
+    includePreviewVersions: true
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+- task: CmdLine@2
+  displayName: 'Installing EF Core CLI'
+  inputs:
+    script: 'dotnet tool install --global dotnet-ef'
 - task: CmdLine@2
   displayName: 'Generating DB script'
-  inputs: #Me genera un script de Sql con todas las migraciones que queremos aplicar -i = idempotente luego donde se va a guerdar el archivo sql
+  inputs:
     script: 'dotnet ef migrations script -i -o $(Build.ArtifactStagingDirectory)\migrate.sql --project $(proyecto)'
-
 - task: DotNetCoreCLI@2
-  displayName: 'Publishing App.....'
-  inputs: 
+  displayName: 'Publishing App...'
+  inputs:
     command: 'publish'
     publishWebProjects: false
     projects: $(proyecto)
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) --runtime win-x64 --self-contained'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --runtime win-x64 --self-contained'
     zipAfterPublish: false
     modifyOutputPath: false
-
 - task: PublishBuildArtifacts@1
-  displayName: 'Publicando los Artefactos(Colocando todo en un directorio especifico)'
-
-
+  displayName: 'Publicando los artefactos'
