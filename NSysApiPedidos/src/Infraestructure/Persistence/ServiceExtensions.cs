@@ -12,7 +12,7 @@ namespace Persistence
         public static void AgregaServiciosDePersistencia(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<NSysPDbContext>(options => options.UseSqlServer(
-                configuration.GetConnectionString("NSysP"), b => b.MigrationsAssembly(typeof(NSysPDbContext).Assembly.FullName)));
+                configuration.GetConnectionString("defaultConnection"), b => b.MigrationsAssembly(typeof(NSysPDbContext).Assembly.FullName)));
 
             services.AddTransient(typeof(IRepositoryAsync<>), typeof(MiRepositorioAsync<>));
         }
