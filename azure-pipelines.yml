@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  proyecto: 'WebAPIAutores/WebAPIAutores.csproj'
+  proyecto: 'NSysApiPedidos/src/Presentation/WebApi/WebApi.csproj'
 
 steps:
 - task: CmdLine@2
