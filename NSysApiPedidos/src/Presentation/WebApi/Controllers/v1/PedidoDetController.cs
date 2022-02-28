@@ -22,7 +22,11 @@ namespace WebApi.Controllers.v1
         {
             this._logger = logger;
         }
-
+        /// <summary>
+        ///  hola
+        /// </summary>
+        /// <param name="parametros"></param>
+        /// <returns></returns>
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Respuesta<List<PedidoDetDTO>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Respuesta<>))]
