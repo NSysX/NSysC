@@ -68,6 +68,12 @@ namespace WebApi.Controllers.v1
             return Ok(await this.Mediator.Send(actualizar));
         }
 
+
+        /// <summary>
+        /// Borrar una partida de Pedido
+        /// </summary>
+        /// <param name="id">Id del Pedido A Eliminar</param>
+        /// <returns></returns>
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Respuesta<int>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Respuesta<int>))]
