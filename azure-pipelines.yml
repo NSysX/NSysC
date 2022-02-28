@@ -7,7 +7,7 @@ trigger:
 - main #Quere decir que es el branch main de GitHub
 
 pool:
-  vmImage: 'vs2022-win2022' # windows server 2016
+  vmImage: 'vs2016-win2019' # windows server 2016
 
 variables: # para no estar repitiendo tanta informacion
   buildConfiguration: 'Release' # Compilar y publicar mi poryecto en modo Release
