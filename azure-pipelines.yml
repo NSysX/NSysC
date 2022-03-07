@@ -7,6 +7,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   proyecto: 'NSysApiPedidos/src/Presentation/WebApi/WebApi.csproj'
+  proyectoIdentity : 'NSysApiPedidos/src/Infraestructure/Identity/Identity.csproj'
 
 steps:
 - task: CmdLine@2
@@ -17,6 +18,11 @@ steps:
   displayName: 'Generating DB script'
   inputs:
     script: 'dotnet ef migrations script -i -o $(Build.ArtifactStagingDirectory)\migrate.sql --project $(proyecto)'
+- task: CmdLine@2
+  displayName: 'Generating Identity DB script'
+  inputs:
+    script: 'dotnet ef migrations script -i -o -Context IdentityContext $(Build.ArtifactStagingDirectory)\migrate.sql --project $(proyectoIdentity)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publishing App...'
   inputs:
