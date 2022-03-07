@@ -1,4 +1,5 @@
 using Application;
+using Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,7 @@ namespace WebApi
         {
             services.AgregaSerilog(_hostEnvironment);
             services.AgregaServiciosAplicacion();
+            services.AgregaServiciosDeIdentity(Configuration);
             services.AgregaServiciosDeShared(Configuration);
             services.AgregaServiciosDePersistencia(Configuration);
             services.AddControllers();
@@ -50,6 +52,28 @@ namespace WebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },Array.Empty<string>()
+                    }
+                });
             });
         }
 
@@ -67,6 +91,8 @@ namespace WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication(); // faltaba agregar
 
             app.UseAuthorization();
 

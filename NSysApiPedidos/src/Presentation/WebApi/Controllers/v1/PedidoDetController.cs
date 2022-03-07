@@ -5,6 +5,7 @@ using Application.Features.PedidosDet.Commands.InsertarPedidosCommand;
 using Application.Features.PedidosDet.Queries.PedidoDetXId;
 using Application.Features.PedidosDet.Queries.PedidosDetXParametros;
 using Application.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -52,6 +53,7 @@ namespace WebApi.Controllers.v1
         }
 
         [HttpPost()]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Respuesta<int>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Respuesta<int>))]
         public async Task<IActionResult> PostPedidoDet(InsertarPedidoDetCommand command)
@@ -61,6 +63,7 @@ namespace WebApi.Controllers.v1
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Respuesta<int>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Respuesta<int>))]
         public async Task<IActionResult> PutPedidoDet(int id, ActualizarPedidoDetCommand actualizar)
@@ -79,6 +82,7 @@ namespace WebApi.Controllers.v1
         /// <param name="id">Id del Pedido A Eliminar</param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")] 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Respuesta<int>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Respuesta<int>))]
         public async Task<IActionResult> DeletePedidoDet(int id)

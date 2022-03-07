@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infraestructure\Identity\Identity.csproj" />
     <ProjectReference Include="..\..\Infraestructure\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\..\Infraestructure\Shared\Shared.csproj" />
   </ItemGroup>
