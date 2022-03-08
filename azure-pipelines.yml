@@ -17,11 +17,11 @@ steps:
 - task: CmdLine@2
   displayName: 'Generating DB script'
   inputs:
-    script: 'dotnet ef migrations script -i -o -Context NSysPDbContext $(Build.ArtifactStagingDirectory)\migrate.sql --project $(proyecto)'
+    script: 'dotnet ef migrations script -i -o --Context NSysPDbContext $(Build.ArtifactStagingDirectory)\migrate.sql --project $(proyecto)'
 - task: CmdLine@2
   displayName: 'Generating Identity DB script'
   inputs:
-    script: 'dotnet ef migrations script -i -o -Context IdentityContext $(Build.ArtifactStagingDirectory)\migrate.sql --project $(proyectoIdentity)'
+    script: 'dotnet ef migrations script -i -o --Context IdentityContext $(Build.ArtifactStagingDirectory)\migrate2.sql --project $(proyectoIdentity)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publishing App...'
