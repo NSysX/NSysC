@@ -21,7 +21,7 @@ steps:
 - task: CmdLine@2
   displayName: 'Generating Identity DB script'
   inputs:
-    script: 'dotnet ef migrations script -i -o $(Build.ArtifactStagingDirectory)\migrate2.sql --project $(proyectoIdentity) --context IdentityContext'
+    script: 'dotnet ef migrations script -i -o $(Build.ArtifactStagingDirectory)\migrate2.sql --project $(proyecto) --context IdentityContext'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publishing App...'
