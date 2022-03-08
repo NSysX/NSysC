@@ -1,2 +1,2 @@
 # NSysC
-Faltantes , pedidos , Existencias 
+Faltantes , Pedidos , Existencias 
