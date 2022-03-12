@@ -18,7 +18,6 @@ namespace Application.Specifications.PedidosDet
 
             if (!String.IsNullOrEmpty(estatus))
                 Query.Where(p => p.Estatus == estatus);
-
         }
     }
 

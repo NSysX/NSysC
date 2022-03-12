@@ -23,26 +23,34 @@ namespace Application.Features.PedidosDet.Commands.InsertarPedidosCommand
         public string Notas { get; set; }
     }
 
-    public class InsertarPedidoDet_Manejador : IRequestHandler<InsertarPedidoDetCommand, Respuesta<int>>
+    public class InsertarPedidoDet_Manejador : IRequestHandler<IEnumerable<InsertarPedidoDetCommand>, Respuesta<int>>
     {
-        private readonly IRepositoryAsync<PedidoDet> _repositoryAsync;
+        private readonly MiRepositorioAsync<PedidoDet> _repositoryAsync;
         private readonly IMapper _mapper;
 
-        public InsertarPedidoDet_Manejador(IRepositoryAsync<PedidoDet> repositoryAsync, IMapper mapper)
+        public InsertarPedidoDet_Manejador(MiRepositorioAsync<PedidoDet> repositoryAsync, IMapper mapper)
         {
             this._repositoryAsync = repositoryAsync;
             this._mapper = mapper;
         }
 
-        public async Task<Respuesta<int>> Handle(InsertarPedidoDetCommand request, CancellationToken cancellationToken)
-        {
-            // Falta verificar que no exista que lo pidan mas de una vez
-            // var entidad = 
-            // si no existe
+        //public async Task<Respuesta<int>> Handle(InsertarPedidoDetCommand request, CancellationToken cancellationToken)
+        //{
+        //    // Falta verificar que no exista que lo pidan mas de una vez
+        //    // var entidad = 
+        //    // si no existe
 
-            var entity = this._mapper.Map<PedidoDet>(request);
-            var data = await this._repositoryAsync.AddAsync(entity, cancellationToken);
-            return new Respuesta<int>(data.Id);
+        //    var entity = this._mapper.Map<PedidoDet>(request);
+        //    var data = await this._repositoryAsync.AddAsync(entity, cancellationToken);
+        //    return new Respuesta<int>(data.Id);
+        //}
+
+        public async Task<Respuesta<int>> Handle(IEnumerable<InsertarPedidoDetCommand> request, CancellationToken cancellationToken)
+        { 
+
+            var entities = this._mapper.Map<IEnumerable<PedidoDet>>(request);
+
+            await this._repositoryAsync.Add(entities, cancellationToken);
         }
     }
 }
